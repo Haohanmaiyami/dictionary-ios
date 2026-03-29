@@ -7,19 +7,18 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct DictionaryView: View {
     var body: some View {
-        VStack(spacing: 20) {
-            Text("hello iphone")
-                .font(.largeTitle)
-            Text("nǐ hǎo")
-                .font(.largeTitle)
-                .foregroundColor(.gray)
+        TabView {
+            DictionaryMainView()
+                .tabItem {
+                    Label("Словарь", systemImage: "book")
+                }
+            AIView()
+                .tabItem {
+                    Label("AI", systemImage: "sparkles")
+                }
         }
-        .padding()
     }
 }
-
-#Preview {
-    ContentView()
-}
+            

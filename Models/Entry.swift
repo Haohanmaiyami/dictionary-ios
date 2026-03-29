@@ -6,3 +6,12 @@
 //
 
 import Foundation
+
+struct Entry: Codable, Identifiable {
+    let id: Int
+    let hanzi: String?
+    let pinyin: String?
+    let ru: String?
+    let pos: String?
+    let examples: String?
+}

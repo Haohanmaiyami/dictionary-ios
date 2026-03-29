@@ -6,17 +6,34 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXFileReference section */
-		BDF0F8552F6A430600CAD578 /* DictionaryApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DictionaryApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-/* End PBXFileReference section */
+/* Begin PBXBuildFile section */
+		BDE655162F779CEA006F6709 /* StrokeOrderWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE655152F779CEA006F6709 /* StrokeOrderWebView.swift */; };
+		BDF0F8592F6A430600CAD578 /* DictionaryAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF0F8582F6A430600CAD578 /* DictionaryAppApp.swift */; };
+		BDF0F85B2F6A430600CAD578 /* DictionaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF0F85A2F6A430600CAD578 /* DictionaryView.swift */; };
+		BDF0F85D2F6A430800CAD578 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BDF0F85C2F6A430800CAD578 /* Assets.xcassets */; };
+		BDF5F3472F6A520B00EB7500 /* EntryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF5F3462F6A520B00EB7500 /* EntryDetailView.swift */; };
+		BDF5F3492F6A522B00EB7500 /* AIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF5F3482F6A522B00EB7500 /* AIView.swift */; };
+		BDF5F34B2F6A560800EB7500 /* DictionaryMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF5F34A2F6A560800EB7500 /* DictionaryMainView.swift */; };
+		BDF5F34D2F6A574E00EB7500 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF5F34C2F6A574E00EB7500 /* APIService.swift */; };
+		BDF5F34F2F6A57B400EB7500 /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF5F34E2F6A57B400EB7500 /* Entry.swift */; };
+		BDF5F3512F6A582300EB7500 /* SearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF5F3502F6A582300EB7500 /* SearchResponse.swift */; };
+		BDF5F3532F6B9A7000EB7500 /* AIModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF5F3522F6B9A7000EB7500 /* AIModels.swift */; };
+/* End PBXBuildFile section */
 
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		BDF0F8572F6A430600CAD578 /* DictionaryApp */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = DictionaryApp;
-			sourceTree = "<group>";
-		};
-/* End PBXFileSystemSynchronizedRootGroup section */
+/* Begin PBXFileReference section */
+		BDE655152F779CEA006F6709 /* StrokeOrderWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeOrderWebView.swift; sourceTree = "<group>"; };
+		BDF0F8552F6A430600CAD578 /* DictionaryApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DictionaryApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BDF0F8582F6A430600CAD578 /* DictionaryAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryAppApp.swift; sourceTree = "<group>"; };
+		BDF0F85A2F6A430600CAD578 /* DictionaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryView.swift; sourceTree = "<group>"; };
+		BDF0F85C2F6A430800CAD578 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BDF5F3462F6A520B00EB7500 /* EntryDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDetailView.swift; sourceTree = "<group>"; };
+		BDF5F3482F6A522B00EB7500 /* AIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIView.swift; sourceTree = "<group>"; };
+		BDF5F34A2F6A560800EB7500 /* DictionaryMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryMainView.swift; sourceTree = "<group>"; };
+		BDF5F34C2F6A574E00EB7500 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		BDF5F34E2F6A57B400EB7500 /* Entry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
+		BDF5F3502F6A582300EB7500 /* SearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResponse.swift; sourceTree = "<group>"; };
+		BDF5F3522F6B9A7000EB7500 /* AIModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIModels.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		BDF0F8522F6A430600CAD578 /* Frameworks */ = {
@@ -32,7 +49,12 @@
 		BDF0F84C2F6A430600CAD578 = {
 			isa = PBXGroup;
 			children = (
-				BDF0F8572F6A430600CAD578 /* DictionaryApp */,
+				BDF0F8682F6A4B9400CAD578 /* Components */,
+				BDF0F8672F6A4B8D00CAD578 /* Views */,
+				BDF0F8662F6A4B8600CAD578 /* Network */,
+				BDF0F8652F6A4B7B00CAD578 /* Models */,
+				BDF0F8582F6A430600CAD578 /* DictionaryAppApp.swift */,
+				BDF0F85C2F6A430800CAD578 /* Assets.xcassets */,
 				BDF0F8562F6A430600CAD578 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -43,6 +65,43 @@
 				BDF0F8552F6A430600CAD578 /* DictionaryApp.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		BDF0F8652F6A4B7B00CAD578 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				BDF5F34E2F6A57B400EB7500 /* Entry.swift */,
+				BDF5F3502F6A582300EB7500 /* SearchResponse.swift */,
+				BDF5F3522F6B9A7000EB7500 /* AIModels.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		BDF0F8662F6A4B8600CAD578 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				BDF5F34C2F6A574E00EB7500 /* APIService.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		BDF0F8672F6A4B8D00CAD578 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BDF0F85A2F6A430600CAD578 /* DictionaryView.swift */,
+				BDF5F3462F6A520B00EB7500 /* EntryDetailView.swift */,
+				BDF5F3482F6A522B00EB7500 /* AIView.swift */,
+				BDF5F34A2F6A560800EB7500 /* DictionaryMainView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		BDF0F8682F6A4B9400CAD578 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				BDE655152F779CEA006F6709 /* StrokeOrderWebView.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -59,9 +118,6 @@
 			buildRules = (
 			);
 			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				BDF0F8572F6A430600CAD578 /* DictionaryApp */,
 			);
 			name = DictionaryApp;
 			packageProductDependencies = (
@@ -109,6 +165,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BDF0F85D2F6A430800CAD578 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,6 +176,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BDF5F34F2F6A57B400EB7500 /* Entry.swift in Sources */,
+				BDF5F3492F6A522B00EB7500 /* AIView.swift in Sources */,
+				BDE655162F779CEA006F6709 /* StrokeOrderWebView.swift in Sources */,
+				BDF5F3472F6A520B00EB7500 /* EntryDetailView.swift in Sources */,
+				BDF5F3532F6B9A7000EB7500 /* AIModels.swift in Sources */,
+				BDF0F85B2F6A430600CAD578 /* DictionaryView.swift in Sources */,
+				BDF5F3512F6A582300EB7500 /* SearchResponse.swift in Sources */,
+				BDF0F8592F6A430600CAD578 /* DictionaryAppApp.swift in Sources */,
+				BDF5F34D2F6A574E00EB7500 /* APIService.swift in Sources */,
+				BDF5F34B2F6A560800EB7500 /* DictionaryMainView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,6 +318,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = R85B77Q5PG;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -258,6 +326,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -282,6 +351,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = R85B77Q5PG;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -289,6 +359,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

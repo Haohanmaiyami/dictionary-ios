@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+struct SearchResponse: Codable {
+    let q: String
+    let count: Int
+    let results: [Entry]
+}
