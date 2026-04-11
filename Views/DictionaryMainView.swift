@@ -89,8 +89,13 @@ struct DictionaryMainView: View {
                                         .foregroundColor(.gray)
                                 }
                                 
-                                Text(entry.ru ?? "Без перевода")
+                                Text(
+                                    (entry.ru ?? "Без перевода")
+                                        .replacingOccurrences(of: "<br>", with: " ")
+                                        .trimmingCharacters(in: .whitespacesAndNewlines)
+                                    )
                                     .font(.subheadline)
+                                    .lineLimit(2)
                             }
                         }
                     }

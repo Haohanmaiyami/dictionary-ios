@@ -10,7 +10,7 @@ import Foundation
 class APIService {
     static let shared = APIService()
     
-    private let baseURL = "http://192.168.1.175:8000"
+    private let baseURL = "http://127.0.0.1:8000"
     
     private init() {}
     
@@ -41,5 +41,45 @@ class APIService {
         let result = try decoder.decode(SearchResponse.self, from: data)
         
         return result
+    }
+    
+    func analyzeChinese(text: String) async throws -> AIAnalyzeResponse {
+        let url = URL(string: "\(baseURL)/api/ai/analyze")!
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let body = AIAnalyzeRequest(text: text)
+        request.httpBody = try JSONEncoder().encode(body)
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse,
+              httpResponse.statusCode == 200 else {
+            throw URLError(.badServerResponse)
+        }
+        
+        return try JSONDecoder().decode(AIAnalyzeResponse.self, from: data)
+    }
+    
+    func translateRuToCn(text: String) async throws -> AITranslateRuToCnResponse {
+        let url = URL(string: "\(baseURL)/api/ai/translate-ru-to-cn")!
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let body = AITranslateRuToCnRequest(text: text)
+        request.httpBody = try JSONEncoder().encode(body)
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse,
+              httpResponse.statusCode == 200 else {
+            throw URLError(.badServerResponse)
+        }
+        
+        return try JSONDecoder().decode(AITranslateRuToCnResponse.self, from: data)
     }
 }

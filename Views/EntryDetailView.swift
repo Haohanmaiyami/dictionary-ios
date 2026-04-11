@@ -10,6 +10,18 @@ import SwiftUI
 
 struct EntryDetailView: View {
     let entry: Entry
+    
+    private var cleanedTranslation: String {
+        (entry.ru ?? "Без перевода")
+            .replacingOccurrences(of: "<br>", with: "\n")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+    
+    private var cleanedExamples: String {
+        (entry.examples ?? "Примеры отсутствуют")
+            .replacingOccurrences(of: "<br>", with: "\n")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+    }
 
     var body: some View {
         ScrollView {
@@ -31,7 +43,7 @@ struct EntryDetailView: View {
                     Text("Перевод")
                         .font(.headline)
 
-                    Text(entry.ru ?? "Без перевода")
+                    Text(cleanedTranslation)
                         .font(.body)
                 }
 
@@ -39,7 +51,7 @@ struct EntryDetailView: View {
                     Text("Примеры")
                         .font(.headline)
 
-                    Text(entry.examples ?? "Примеры отсутствуют")
+                    Text(cleanedExamples)
                         .font(.body)
                 }
 

@@ -18,6 +18,11 @@ struct AIDictionaryHit: Codable, Identifiable {
     }
 }
 
+
+struct AIAnalyzeRequest: Codable {
+    let text: String
+}
+
 struct AIAnalyzeResponse: Codable {
     let text: String
     let dictionaryHits: [AIDictionaryHit]
@@ -28,6 +33,15 @@ struct AIAnalyzeResponse: Codable {
         case dictionaryHits = "dictionary_hits"
         case analysis
     }
+}
+
+struct AITranslateRuToCnRequest: Codable {
+    let text: String
+}
+
+struct AITranslateRuToCnResponse: Codable {
+    let text: String
+    let translation: String
 }
 
 struct AITranslateResponse: Codable {
@@ -41,4 +55,7 @@ struct AITranslateResponse: Codable {
         case dictionaryHits = "dictionary_hits"
     }
 }
+
+
+
 
