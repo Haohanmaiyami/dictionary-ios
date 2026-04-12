@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BDCBE9432F8C2F27005E71DD /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = BDCBE9422F8C2F10005E71DD /* README.md */; };
 		BDE655162F779CEA006F6709 /* StrokeOrderWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE655152F779CEA006F6709 /* StrokeOrderWebView.swift */; };
 		BDF0F8592F6A430600CAD578 /* DictionaryAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF0F8582F6A430600CAD578 /* DictionaryAppApp.swift */; };
 		BDF0F85B2F6A430600CAD578 /* DictionaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF0F85A2F6A430600CAD578 /* DictionaryView.swift */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BDCBE9422F8C2F10005E71DD /* README.md */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = README.md; sourceTree = "<group>"; };
 		BDE655152F779CEA006F6709 /* StrokeOrderWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeOrderWebView.swift; sourceTree = "<group>"; };
 		BDF0F8552F6A430600CAD578 /* DictionaryApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DictionaryApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BDF0F8582F6A430600CAD578 /* DictionaryAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryAppApp.swift; sourceTree = "<group>"; };
@@ -49,6 +51,7 @@
 		BDF0F84C2F6A430600CAD578 = {
 			isa = PBXGroup;
 			children = (
+				BDCBE9422F8C2F10005E71DD /* README.md */,
 				BDF0F8682F6A4B9400CAD578 /* Components */,
 				BDF0F8672F6A4B8D00CAD578 /* Views */,
 				BDF0F8662F6A4B8600CAD578 /* Network */,
@@ -185,6 +188,7 @@
 				BDF5F3512F6A582300EB7500 /* SearchResponse.swift in Sources */,
 				BDF0F8592F6A430600CAD578 /* DictionaryAppApp.swift in Sources */,
 				BDF5F34D2F6A574E00EB7500 /* APIService.swift in Sources */,
+				BDCBE9432F8C2F27005E71DD /* README.md in Sources */,
 				BDF5F34B2F6A560800EB7500 /* DictionaryMainView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
