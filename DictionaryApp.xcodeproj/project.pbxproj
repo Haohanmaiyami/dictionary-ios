@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BDCBE9432F8C2F27005E71DD /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = BDCBE9422F8C2F10005E71DD /* README.md */; };
 		BDE655162F779CEA006F6709 /* StrokeOrderWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE655152F779CEA006F6709 /* StrokeOrderWebView.swift */; };
 		BDF0F8592F6A430600CAD578 /* DictionaryAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF0F8582F6A430600CAD578 /* DictionaryAppApp.swift */; };
 		BDF0F85B2F6A430600CAD578 /* DictionaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF0F85A2F6A430600CAD578 /* DictionaryView.swift */; };
@@ -188,7 +187,6 @@
 				BDF5F3512F6A582300EB7500 /* SearchResponse.swift in Sources */,
 				BDF0F8592F6A430600CAD578 /* DictionaryAppApp.swift in Sources */,
 				BDF5F34D2F6A574E00EB7500 /* APIService.swift in Sources */,
-				BDCBE9432F8C2F27005E71DD /* README.md in Sources */,
 				BDF5F34B2F6A560800EB7500 /* DictionaryMainView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

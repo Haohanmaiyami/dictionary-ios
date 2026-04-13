@@ -25,7 +25,7 @@ struct EntryDetailView: View {
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 24) {
+            VStack(alignment: .leading, spacing: 20) {
 
                 VStack(spacing: 8) {
                     Text(entry.hanzi ?? "—")
@@ -38,6 +38,7 @@ struct EntryDetailView: View {
                     }
                 }
                 .frame(maxWidth: .infinity)
+                .padding(.vertical, 8)
 
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Перевод")
@@ -45,7 +46,11 @@ struct EntryDetailView: View {
 
                     Text(cleanedTranslation)
                         .font(.body)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
+                .padding()
+                .background(Color(.systemGray6))
+                .cornerRadius(12)
 
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Примеры")
@@ -53,7 +58,11 @@ struct EntryDetailView: View {
 
                     Text(cleanedExamples)
                         .font(.body)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
+                .padding()
+                .background(Color(.systemGray6))
+                .cornerRadius(12)
 
                 if let hanzi = entry.hanzi, !hanzi.isEmpty {
                     VStack(alignment: .leading, spacing: 8) {
@@ -62,6 +71,9 @@ struct EntryDetailView: View {
                         StrokeOrderWebView(hanzi: hanzi)
                             .frame(height: 240)
                     }
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .cornerRadius(12)
                 }
 
                 Spacer(minLength: 20)

@@ -33,7 +33,9 @@ struct DictionaryMainView: View {
                             results = []
                             errorMessage = nil
                         }
+                        .buttonStyle(.bordered)
                         .font(.subheadline)
+                        .tint(.gray)
                     }
                 }
                 .padding(.horizontal)
@@ -44,6 +46,7 @@ struct DictionaryMainView: View {
                     }
                 }
                 .buttonStyle(.borderedProminent)
+                .tint(.blue)
                 
                 
                 // Логика состояний

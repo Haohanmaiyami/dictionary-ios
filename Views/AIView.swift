@@ -30,31 +30,35 @@ struct AIView: View {
                 
                 ZStack(alignment: .topLeading) {
                     TextEditor(text: $text)
-                        .padding(4)
+                        .padding(8)
                         .scrollContentBackground(.hidden)
-                        .background(Color.clear)
+                       
                     
                     if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                         Text("Введите текст...")
                             .foregroundColor(.gray)
-                            .padding(.top, 12)
-                            .padding(.leading, 10)
+                            .padding(.top, 16)
+                            .padding(.leading, 14)
                             .allowsHitTesting(false)
                     }
                 }
                 .frame(height: 120)
+                .background(Color(.systemGray6))
+                .cornerRadius(12)
                 .overlay(
-                    RoundedRectangle(cornerRadius: 8)
-                        .stroke(Color.gray)
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(Color.gray.opacity(0.5))
                 )
                 .padding(.horizontal)
                 
                 Button(isCNMode ? "Перевести (CN -> RU)" : "Перевести (RU -> CN)") {
+                    hideKeyboard()
                     Task {
                         await analyze()
                     }
                 }
                 .buttonStyle(.borderedProminent)
+                .tint(.blue)
                 .disabled(text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                 
                 if isLoading {
@@ -71,7 +75,7 @@ struct AIView: View {
                             
                             VStack(alignment: .leading, spacing: 12) {
                                 ForEach(sections, id: \.title) { section in
-                                    VStack(alignment: .leading, spacing: 6) {
+                                    VStack(alignment: .leading, spacing: 8) {
                                         Text(section.title)
                                             .font(.headline)
                                         
@@ -81,11 +85,10 @@ struct AIView: View {
                                     }
                                     .padding()
                                     .background(Color(.systemGray6))
-                                    .cornerRadius(10)
-                                }
+                                    .cornerRadius(12)                                }
                             }
                             
-                            Button("Скопировать результат") {
+                            Button(showCopiedMessage ? "Скопировано" : "Скопировать результат") {
                                 let sections = parseAIResult(result)
                                 let formatted = sections
                                         .map { section in
@@ -99,15 +102,9 @@ struct AIView: View {
                                     showCopiedMessage = false
                                 }
                             }
-                            .buttonStyle(.bordered)
+                            .buttonStyle(.borderedProminent)
                             .tint(showCopiedMessage ? .green : .blue)
                             
-                            if showCopiedMessage {
-                                Text("Скопировано")
-                                    .font(.subheadline)
-                                    .foregroundColor(.green)
-                                    .padding(.top, 4)
-                            }
                             
                             if !dictionaryHits.isEmpty {
                                 VStack(alignment: .leading, spacing: 12) {
@@ -115,24 +112,26 @@ struct AIView: View {
                                         .font(.headline)
                                     
                                     ForEach(dictionaryHits) { hit in
-                                        VStack(alignment: .leading, spacing: 4) {
+                                        VStack(alignment: .leading, spacing: 6) {
                                             Text(hit.hanzi ?? "—")
                                                 .font(.title3)
+                                                .fontWeight(.bold)
                                             
                                             if let pinyin = hit.pinyin, !pinyin.isEmpty {
                                                 Text(pinyin)
-                                                    .foregroundColor(.gray)
+                                                    .foregroundColor(.secondary)
                                             }
                                             
                                             if let ru = hit.ru, !ru.isEmpty {
                                                 Text(ru)
                                                     .font(.subheadline)
+                                                    .foregroundColor(.secondary)
                                             }
                                         }
                                         .padding()
                                         .frame(maxWidth: .infinity, alignment: .leading)
-                                        .background(Color(.systemGray6))
-                                        .cornerRadius(10)
+                                        .background(Color(.systemGray5))
+                                        .cornerRadius(12)
                                     }
                                 }
                             }
