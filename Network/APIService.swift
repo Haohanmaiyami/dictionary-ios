@@ -60,26 +60,38 @@ class APIService {
             throw URLError(.badServerResponse)
         }
         
-        return try JSONDecoder().decode(AIAnalyzeResponse.self, from: data)
-    }
-    
-    func translateRuToCn(text: String) async throws -> AITranslateRuToCnResponse {
-        let url = URL(string: "\(baseURL)/api/ai/translate-ru-to-cn")!
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        let body = AITranslateRuToCnRequest(text: text)
-        request.httpBody = try JSONEncoder().encode(body)
-        
-        let (data, response) = try await URLSession.shared.data(for: request)
-        
-        guard let httpResponse = response as? HTTPURLResponse,
-              httpResponse.statusCode == 200 else {
-            throw URLError(.badServerResponse)
+        do {
+            let decoded = try JSONDecoder().decode(AIAnalyzeResponse.self, from: data)
+            return decoded
+        } catch {
+            let raw = String(data: data, encoding: .utf8) ?? "NO DATA"
+            throw NSError(
+                domain: "AI_DEBUG",
+                code: 1,
+                userInfo: [
+                    NSLocalizedDescriptionKey: "RAW JSON:\n\(raw)\n\nERROR:\n\(error)"
+                ]
+            )
         }
         
-        return try JSONDecoder().decode(AITranslateRuToCnResponse.self, from: data)
+        func translateRuToCn(text: String) async throws -> AITranslateRuToCnResponse {
+            let url = URL(string: "\(baseURL)/api/ai/translate-ru-to-cn")!
+            
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            
+            let body = AITranslateRuToCnRequest(text: text)
+            request.httpBody = try JSONEncoder().encode(body)
+            
+            let (data, response) = try await URLSession.shared.data(for: request)
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                  httpResponse.statusCode == 200 else {
+                throw URLError(.badServerResponse)
+            }
+            
+            return try JSONDecoder().decode(AITranslateRuToCnResponse.self, from: data)
+        }
     }
 }
