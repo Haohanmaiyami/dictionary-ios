@@ -48,6 +48,7 @@ struct AITranslateRuToCnRequest: Codable {
 struct AITranslateRuToCnResponse: Codable {
     let text: String
     let translation: String
+    let pinyin: String
 }
 
 struct AITranslateResponse: Codable {
