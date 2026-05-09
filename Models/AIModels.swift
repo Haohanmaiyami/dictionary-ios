@@ -25,7 +25,6 @@ struct AIAnalyzeRequest: Codable {
 
 struct AIAnalyzeResponse: Codable {
     let text: String
-    let literal: String
     let natural: String
     let pinyin: String
     let keywords: [String]
@@ -33,7 +32,6 @@ struct AIAnalyzeResponse: Codable {
 
     enum CodingKeys: String, CodingKey {
         case text
-        case literal
         case natural
         case pinyin
         case keywords

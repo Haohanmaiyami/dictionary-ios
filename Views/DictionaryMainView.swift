@@ -98,7 +98,8 @@ struct DictionaryMainView: View {
                                         .trimmingCharacters(in: .whitespacesAndNewlines)
                                     )
                                     .font(.subheadline)
-                                    .lineLimit(2)
+                                    .lineLimit(1)
+                                    .truncationMode(.tail)
                             }
                         }
                     }

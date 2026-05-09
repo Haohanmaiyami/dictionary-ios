@@ -10,7 +10,14 @@ import Foundation
 class APIService {
     static let shared = APIService()
     
-    private let baseURL = "http://127.0.0.1:8000"
+    private let baseURL = "http://45.12.231.230:8001"
+    
+    private let session: URLSession = {
+        let config = URLSessionConfiguration.default
+        config.timeoutIntervalForRequest = 180
+        config.timeoutIntervalForResource = 180
+        return URLSession(configuration: config)
+    }()
     
     private init() {}
     
@@ -28,7 +35,7 @@ class APIService {
         }
         
         // 3. Делаем запрос
-        let (data, response) = try await URLSession.shared.data(from: url)
+        let (data, response) = try await session.data(from: url)
         
         // 4. Проверка ответа
         guard let httpResponse = response as? HTTPURLResponse,
@@ -53,7 +60,7 @@ class APIService {
         let body = AIAnalyzeRequest(text: text)
         request.httpBody = try JSONEncoder().encode(body)
         
-        let (data, response) = try await URLSession.shared.data(for: request)
+        let (data, response) = try await session.data(for: request)
         
         guard let httpResponse = response as? HTTPURLResponse,
               httpResponse.statusCode == 200 else {
@@ -85,7 +92,7 @@ class APIService {
         let body = AITranslateRuToCnRequest(text: text)
         request.httpBody = try JSONEncoder().encode(body)
 
-        let (data, response) = try await URLSession.shared.data(for: request)
+        let (data, response) = try await session.data(for: request)
 
         guard let httpResponse = response as? HTTPURLResponse,
               httpResponse.statusCode == 200 else {
@@ -93,6 +100,18 @@ class APIService {
         }
 
         return try JSONDecoder().decode(AITranslateRuToCnResponse.self, from: data)
+    }
+    func fetchEntry(id: Int) async throws -> Entry {
+        let url = URL(string: "\(baseURL)/api/entry/\(id)")!
+
+        let (data, response) = try await session.data(from: url)
+
+        guard let httpResponse = response as? HTTPURLResponse,
+              httpResponse.statusCode == 200 else {
+            throw URLError(.badServerResponse)
+        }
+
+        return try JSONDecoder().decode(Entry.self, from: data)
     }
 }
 

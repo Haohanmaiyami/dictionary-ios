@@ -11,14 +11,21 @@ import SwiftUI
 struct EntryDetailView: View {
     let entry: Entry
     
+    @State private var fullEntry: Entry?
+    @State private var isLoading = false
+
+    private var currentEntry: Entry {
+        fullEntry ?? entry
+    }
+    
     private var cleanedTranslation: String {
-        (entry.ru ?? "Без перевода")
+        (currentEntry.ru ?? "Без перевода")
             .replacingOccurrences(of: "<br>", with: "\n")
             .trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
     private var cleanedExamples: String {
-        (entry.examples ?? "Примеры отсутствуют")
+        (currentEntry.examples ?? "Примеры отсутствуют")
             .replacingOccurrences(of: "<br>", with: "\n")
             .trimmingCharacters(in: .whitespacesAndNewlines)
     }
@@ -28,10 +35,10 @@ struct EntryDetailView: View {
             VStack(alignment: .leading, spacing: 20) {
 
                 VStack(spacing: 8) {
-                    Text(entry.hanzi ?? "—")
+                    Text(currentEntry.hanzi ?? "—")
                         .font(.system(size: 42, weight: .bold))
 
-                    if let pinyin = entry.pinyin, !pinyin.isEmpty {
+                    if let pinyin = currentEntry.pinyin, !pinyin.isEmpty {
                         Text(pinyin)
                             .font(.title3)
                             .foregroundColor(.gray)
@@ -64,7 +71,7 @@ struct EntryDetailView: View {
                 .background(Color(.systemGray6))
                 .cornerRadius(12)
 
-                if let hanzi = entry.hanzi, !hanzi.isEmpty {
+                if let hanzi = currentEntry.hanzi, !hanzi.isEmpty {
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Порядок черт")
                             .font(.headline)
@@ -80,7 +87,22 @@ struct EntryDetailView: View {
             }
             .padding()
         }
+
         .navigationTitle("Слово")
         .navigationBarTitleDisplayMode(.inline)
+        .task {
+            await loadFullEntry()
+        }
+    }
+    private func loadFullEntry() async {
+        isLoading = true
+
+        do {
+            fullEntry = try await APIService.shared.fetchEntry(id: entry.id)
+        } catch {
+            print("Failed to fetch full entry:", error)
+        }
+
+        isLoading = false
     }
 }

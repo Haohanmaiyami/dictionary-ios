@@ -3,7 +3,6 @@ import UIKit
 
 struct AIView: View {
     @State private var text: String = ""
-    @State private var literal: String = ""
     @State private var natural: String = ""
     @State private var pinyin: String = ""
     @State private var keywords: [String] = []
@@ -61,29 +60,15 @@ struct AIView: View {
 
                 // STATES
                 if isLoading {
-                    ProgressView("Анализ...")
+                    ProgressView(isCNMode ? "AI анализирует... это может занять до минуты" : "AI переводит... это может занять до минуты")
                 } else if let error = error {
                     Text(error)
                         .foregroundColor(.red)
                         .padding(.horizontal)
-                } else if !literal.isEmpty || !natural.isEmpty || !pinyin.isEmpty {
+                } else if !natural.isEmpty || !pinyin.isEmpty {
 
                     ScrollView {
                         VStack(alignment: .leading, spacing: 16) {
-
-                            // LITERAL
-                            if !literal.isEmpty {
-                                VStack(alignment: .leading, spacing: 8) {
-                                    Text("Комментарий от ИИ")
-                                        .font(.headline)
-
-                                    Text(literal)
-                                        .foregroundColor(.secondary)
-                                }
-                                .padding()
-                                .background(Color(.systemGray6))
-                                .cornerRadius(12)
-                            }
 
                             // NATURAL
                             if !natural.isEmpty {
@@ -276,7 +261,6 @@ struct AIView: View {
         error = nil
 
         // очистка перед запросом
-        literal = ""
         natural = ""
         pinyin = ""
         keywords = []
@@ -286,7 +270,6 @@ struct AIView: View {
             if isCNMode {
                 let response = try await APIService.shared.analyzeChinese(text: trimmed)
 
-                literal = response.literal
                 natural = response.natural
                 pinyin = response.pinyin
                 keywords = response.keywords
@@ -295,12 +278,8 @@ struct AIView: View {
             } else {
                 let response = try await APIService.shared.translateRuToCn(text: trimmed)
 
-                let parsed = parseRuCn(response.translation)
-
-                natural = parsed.translation
-                    .replacingOccurrences(of: " ", with: "")
+                natural = response.translation
                 pinyin = response.pinyin
-                literal = parsed.comment == "..." ? "" : parsed.comment
 
                 keywords = []
                 dictionaryHits = []
