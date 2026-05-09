@@ -100,7 +100,7 @@ struct EntryDetailView: View {
         do {
             fullEntry = try await APIService.shared.fetchEntry(id: entry.id)
         } catch {
-            print("Failed to fetch full entry:", error)
+            // Keep showing search result data if full entry loading fails.
         }
 
         isLoading = false
