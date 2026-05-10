@@ -58,7 +58,7 @@ struct DictionaryMainView: View {
                         .opacity(0.9)
                         .padding(.top, 20)
 
-                    Text("Китайско-русский словарь")
+                    Text("Поиск слов и ИИ анализ")
                         .font(.headline)
                         .foregroundColor(.secondary)
                 }
@@ -121,7 +121,7 @@ struct DictionaryMainView: View {
                     }
                 }
             }
-            .navigationTitle("Словарь")
+            .navigationTitle("Поиск в словаре")
         }
     }
         

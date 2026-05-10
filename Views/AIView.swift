@@ -181,7 +181,7 @@ struct AIView: View {
                 Spacer()
             }
             .padding(.top)
-            .navigationTitle("AI")
+            .navigationTitle("ИИ анализ")
             .onTapGesture {
                 hideKeyboard()
             }
