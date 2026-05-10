@@ -10,13 +10,25 @@ import SwiftUI
 struct DictionaryView: View {
     var body: some View {
         TabView {
+            
             DictionaryMainView()
                 .tabItem {
                     Label("Словарь", systemImage: "book")
                 }
+            
             AIView()
                 .tabItem {
                     Label("AI", systemImage: "sparkles")
+                }
+            
+            FavoritesView()
+                .tabItem {
+                    Label("Избранное", systemImage: "star.fill")
+                }
+            
+            HistoryView()
+                .tabItem {
+                    Label("История", systemImage: "clock")
                 }
         }
     }

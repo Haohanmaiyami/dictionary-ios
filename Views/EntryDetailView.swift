@@ -13,6 +13,8 @@ struct EntryDetailView: View {
     
     @State private var fullEntry: Entry?
     @State private var isLoading = false
+    
+    @ObservedObject private var favoritesStore = FavoritesStore.shared
 
     private var currentEntry: Entry {
         fullEntry ?? entry
@@ -46,6 +48,22 @@ struct EntryDetailView: View {
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 8)
+                
+                HStack {
+                    Spacer()
+
+                    Button {
+                        favoritesStore.toggle(currentEntry)
+                    } label: {
+                        Image(systemName:
+                            favoritesStore.contains(currentEntry)
+                            ? "star.fill"
+                            : "star"
+                        )
+                        .font(.title2)
+                        .foregroundColor(.yellow)
+                    }
+                }
 
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Перевод")
@@ -91,6 +109,7 @@ struct EntryDetailView: View {
         .navigationTitle("Слово")
         .navigationBarTitleDisplayMode(.inline)
         .task {
+            HistoryStore.shared.add(entry)
             await loadFullEntry()
         }
     }

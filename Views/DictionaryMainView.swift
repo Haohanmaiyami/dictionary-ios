@@ -33,9 +33,11 @@ struct DictionaryMainView: View {
                             results = []
                             errorMessage = nil
                         }
-                        .buttonStyle(.bordered)
-                        .font(.subheadline)
-                        .tint(.gray)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 8)
+                        .background(Color.red.opacity(0.12))
+                        .foregroundColor(.red)
+                        .cornerRadius(10)
                     }
                 }
                 .padding(.horizontal)
@@ -47,6 +49,20 @@ struct DictionaryMainView: View {
                 }
                 .buttonStyle(.borderedProminent)
                 .tint(.blue)
+                
+                if results.isEmpty && query.isEmpty && !isLoading {
+                    Image("dictionary_hero")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxWidth: 260)
+                        .opacity(0.9)
+                        .padding(.top, 20)
+
+                    Text("Китайско-русский словарь")
+                        .font(.headline)
+                        .foregroundColor(.secondary)
+                }
+                
                 
                 
                 // Логика состояний

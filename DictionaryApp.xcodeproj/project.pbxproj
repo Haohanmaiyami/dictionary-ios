@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BDA774752FAFFC37008A430A /* SavedEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA774742FAFFC37008A430A /* SavedEntry.swift */; };
+		BDA7747C2FAFFFDF008A430A /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA7747B2FAFFFDF008A430A /* FavoritesView.swift */; };
+		BDA7747E2FAFFFFA008A430A /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA7747D2FAFFFFA008A430A /* HistoryView.swift */; };
 		BDE655162F779CEA006F6709 /* StrokeOrderWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE655152F779CEA006F6709 /* StrokeOrderWebView.swift */; };
 		BDF0F8592F6A430600CAD578 /* DictionaryAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF0F8582F6A430600CAD578 /* DictionaryAppApp.swift */; };
 		BDF0F85B2F6A430600CAD578 /* DictionaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF0F85A2F6A430600CAD578 /* DictionaryView.swift */; };
@@ -21,6 +24,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BDA774742FAFFC37008A430A /* SavedEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedEntry.swift; sourceTree = "<group>"; };
+		BDA7747B2FAFFFDF008A430A /* FavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesView.swift; sourceTree = "<group>"; };
+		BDA7747D2FAFFFFA008A430A /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		BDCBE9422F8C2F10005E71DD /* README.md */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = README.md; sourceTree = "<group>"; };
 		BDCBE9442F9EE23F005E71DD /* DictionaryApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "DictionaryApp-Info.plist"; sourceTree = "<group>"; };
 		BDE655152F779CEA006F6709 /* StrokeOrderWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeOrderWebView.swift; sourceTree = "<group>"; };
@@ -37,6 +43,14 @@
 		BDF5F3522F6B9A7000EB7500 /* AIModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIModels.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		BDA774762FAFFC76008A430A /* Stores */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Stores;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		BDF0F8522F6A430600CAD578 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
@@ -51,6 +65,7 @@
 		BDF0F84C2F6A430600CAD578 = {
 			isa = PBXGroup;
 			children = (
+				BDA774762FAFFC76008A430A /* Stores */,
 				BDCBE9442F9EE23F005E71DD /* DictionaryApp-Info.plist */,
 				BDCBE9422F8C2F10005E71DD /* README.md */,
 				BDF0F8682F6A4B9400CAD578 /* Components */,
@@ -77,6 +92,7 @@
 				BDF5F34E2F6A57B400EB7500 /* Entry.swift */,
 				BDF5F3502F6A582300EB7500 /* SearchResponse.swift */,
 				BDF5F3522F6B9A7000EB7500 /* AIModels.swift */,
+				BDA774742FAFFC37008A430A /* SavedEntry.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -96,6 +112,8 @@
 				BDF5F3462F6A520B00EB7500 /* EntryDetailView.swift */,
 				BDF5F3482F6A522B00EB7500 /* AIView.swift */,
 				BDF5F34A2F6A560800EB7500 /* DictionaryMainView.swift */,
+				BDA7747B2FAFFFDF008A430A /* FavoritesView.swift */,
+				BDA7747D2FAFFFFA008A430A /* HistoryView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -122,6 +140,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				BDA774762FAFFC76008A430A /* Stores */,
 			);
 			name = DictionaryApp;
 			packageProductDependencies = (
@@ -183,7 +204,10 @@
 				BDF5F34F2F6A57B400EB7500 /* Entry.swift in Sources */,
 				BDF5F3492F6A522B00EB7500 /* AIView.swift in Sources */,
 				BDE655162F779CEA006F6709 /* StrokeOrderWebView.swift in Sources */,
+				BDA7747C2FAFFFDF008A430A /* FavoritesView.swift in Sources */,
+				BDA774752FAFFC37008A430A /* SavedEntry.swift in Sources */,
 				BDF5F3472F6A520B00EB7500 /* EntryDetailView.swift in Sources */,
+				BDA7747E2FAFFFFA008A430A /* HistoryView.swift in Sources */,
 				BDF5F3532F6B9A7000EB7500 /* AIModels.swift in Sources */,
 				BDF0F85B2F6A430600CAD578 /* DictionaryView.swift in Sources */,
 				BDF5F3512F6A582300EB7500 /* SearchResponse.swift in Sources */,
