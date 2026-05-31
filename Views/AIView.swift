@@ -65,7 +65,7 @@ struct AIView: View {
                     Text(error)
                         .foregroundColor(.red)
                         .padding(.horizontal)
-                } else if !natural.isEmpty || !pinyin.isEmpty {
+                } else if !natural.isEmpty || !pinyin.isEmpty || !keywords.isEmpty || !dictionaryHits.isEmpty {
 
                     ScrollView {
                         VStack(alignment: .leading, spacing: 16) {

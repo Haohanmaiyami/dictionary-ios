@@ -13,6 +13,8 @@ struct DictionaryMainView: View {
     @State private var isLoading: Bool = false
     @State private var errorMessage: String?
     
+    @FocusState private var isSearchFieldFocused: Bool
+    
     var body: some View {
         NavigationStack {
             VStack(spacing: 16) {
@@ -21,7 +23,9 @@ struct DictionaryMainView: View {
                     TextField("Введите слово", text: $query)
                         .textFieldStyle(.roundedBorder)
                         .submitLabel(.search)
+                        .focused($isSearchFieldFocused)
                         .onSubmit {
+                            hideKeyboard()
                             Task {
                                 await performSearch()
                             }
@@ -29,6 +33,7 @@ struct DictionaryMainView: View {
                     
                     if !query.isEmpty {
                         Button("Очистить") {
+                            hideKeyboard()
                             query = ""
                             results = []
                             errorMessage = nil
@@ -42,13 +47,21 @@ struct DictionaryMainView: View {
                 }
                 .padding(.horizontal)
                 
-                Button("Поиск") {
+                Button {
+                    hideKeyboard()
                     Task {
                         await performSearch()
+                    }
+                } label: {
+                    if isLoading {
+                        ProgressView()
+                    } else {
+                        Text("Поиск")
                     }
                 }
                 .buttonStyle(.borderedProminent)
                 .tint(.blue)
+                .disabled(isLoading)
                 
                 if results.isEmpty && query.isEmpty && !isLoading {
                     Image("dictionary_hero")
@@ -61,14 +74,10 @@ struct DictionaryMainView: View {
                     Text("Поиск слов и ИИ анализ")
                         .font(.headline)
                         .foregroundColor(.secondary)
-                }
-                
-                
-                
-                // Логика состояний
-                
-                
-                if isLoading {
+
+                    Spacer()
+
+                } else if isLoading {
                     Spacer()
                     ProgressView("Ищу...")
                     Spacer()
@@ -119,10 +128,24 @@ struct DictionaryMainView: View {
                             }
                         }
                     }
+                    .scrollDismissesKeyboard(.immediately)
                 }
             }
             .navigationTitle("Поиск в словаре")
+            .toolbar {
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    
+                    Button("Готово") {
+                        hideKeyboard()
+                    }
+                }
+            }
         }
+    }
+    
+    private func hideKeyboard() {
+        isSearchFieldFocused = false
     }
         
     func performSearch() async {
@@ -138,7 +161,8 @@ struct DictionaryMainView: View {
         errorMessage = nil
         
         do {
-            let response = try await APIService.shared.search(query: trimmedQuery)
+            let response = try await APIService.shared.search(query: trimmedQuery, limit: 20)
+            
             results = response.results
         } catch {
             errorMessage = "Ошибка: \(error.localizedDescription)"

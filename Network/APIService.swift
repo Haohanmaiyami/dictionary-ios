@@ -9,64 +9,77 @@ import Foundation
 
 class APIService {
     static let shared = APIService()
-    
+
     private let baseURL = "http://45.12.231.230:8001"
-    
+
     private let session: URLSession = {
         let config = URLSessionConfiguration.default
+
         config.timeoutIntervalForRequest = 180
         config.timeoutIntervalForResource = 180
+
         return URLSession(configuration: config)
     }()
-    
+
     private init() {}
-    
-    func search(query: String) async throws -> SearchResponse {
-        // 1. Кодируем query
-        guard let encodedQuery = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
+
+    // добавили параметр limit
+    // Раньше было: func search(query: String)
+    // Теперь: func search(query: String, limit: Int = 20)
+    // Это нужно, чтобы iOS не просил слишком много результатов
+    func search(query: String, limit: Int = 20) async throws -> SearchResponse {
+
+        // URL теперь собираем через URLComponents
+        // Так надежнее, чем вручную кодировать строку
+        var components = URLComponents(string: "\(baseURL)/api/search")
+
+        // добавили limit в query parameters
+        // Получится так:
+        // /api/search?q=难听&limit=20
+        components?.queryItems = [
+            URLQueryItem(name: "q", value: query),
+            URLQueryItem(name: "limit", value: "\(limit)")
+        ]
+
+        guard let url = components?.url else {
             throw URLError(.badURL)
         }
-        
-        // 2. Собираем URL
-        let urlString = "\(baseURL)/api/search?q=\(encodedQuery)"
-        
-        guard let url = URL(string: urlString) else {
-            throw URLError(.badURL)
-        }
-        
-        // 3. Делаем запрос
-        let (data, response) = try await session.data(from: url)
-        
-        // 4. Проверка ответа
+
+        // используем URLRequest, чтобы поставить отдельный timeout
+        // Для обычного словаря 180 секунд — слишком много.
+        // Если словарь грузится больше 20 сек, это уже backend-проблема.
+        var request = URLRequest(url: url)
+        request.timeoutInterval = 20
+
+        // вместо session.data(from: url)
+        // используем session.data(for: request), потому что у request есть timeout
+        let (data, response) = try await session.data(for: request)
+
         guard let httpResponse = response as? HTTPURLResponse,
               httpResponse.statusCode == 200 else {
             throw URLError(.badServerResponse)
         }
-        
-        // 5. Декодируем JSON
-        let decoder = JSONDecoder()
-        let result = try decoder.decode(SearchResponse.self, from: data)
-        
-        return result
+
+        return try JSONDecoder().decode(SearchResponse.self, from: data)
     }
-    
+
     func analyzeChinese(text: String) async throws -> AIAnalyzeResponse {
         let url = URL(string: "\(baseURL)/api/ai/analyze")!
-        
+
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
+
         let body = AIAnalyzeRequest(text: text)
         request.httpBody = try JSONEncoder().encode(body)
-        
+
         let (data, response) = try await session.data(for: request)
-        
+
         guard let httpResponse = response as? HTTPURLResponse,
               httpResponse.statusCode == 200 else {
             throw URLError(.badServerResponse)
         }
-        
+
         do {
             let decoded = try JSONDecoder().decode(AIAnalyzeResponse.self, from: data)
             return decoded
@@ -81,7 +94,7 @@ class APIService {
             )
         }
     }
-        
+
     func translateRuToCn(text: String) async throws -> AITranslateRuToCnResponse {
         let url = URL(string: "\(baseURL)/api/ai/translate-ru-to-cn")!
 
@@ -101,6 +114,7 @@ class APIService {
 
         return try JSONDecoder().decode(AITranslateRuToCnResponse.self, from: data)
     }
+
     func fetchEntry(id: Int) async throws -> Entry {
         let url = URL(string: "\(baseURL)/api/entry/\(id)")!
 
@@ -114,4 +128,3 @@ class APIService {
         return try JSONDecoder().decode(Entry.self, from: data)
     }
 }
-
