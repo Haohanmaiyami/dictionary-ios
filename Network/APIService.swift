@@ -10,7 +10,7 @@ import Foundation
 class APIService {
     static let shared = APIService()
 
-    private let baseURL = "http://45.12.231.230:8001"
+    private let baseURL = "http://127.0.0.1:8001"
 
     private let session: URLSession = {
         let config = URLSessionConfiguration.default
