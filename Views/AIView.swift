@@ -23,12 +23,14 @@ struct AIView: View {
                 }
                 .pickerStyle(.segmented)
                 .padding(.horizontal)
+                .disabled(isLoading)
 
                 // INPUT
                 ZStack(alignment: .topLeading) {
                     TextEditor(text: $text)
                         .padding(8)
                         .scrollContentBackground(.hidden)
+                        .disabled(isLoading)
 
                     if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                         Text("Введите текст...")
@@ -56,7 +58,10 @@ struct AIView: View {
                 }
                 .buttonStyle(.borderedProminent)
                 .tint(.blue)
-                .disabled(text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                .disabled(
+                    isLoading ||
+                    text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                )
 
                 // STATES
                 if isLoading {
@@ -253,43 +258,49 @@ struct AIView: View {
 
     // MARK: - Logic
 
+    @MainActor
     func analyze() async {
+        guard !isLoading else { return }
+
         let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return }
 
-        isLoading = true
-        error = nil
+        let requestIsCNMode = isCNMode
 
-        // очистка перед запросом
+        isLoading = true
+        defer {
+            isLoading = false
+        }
+
+        error = nil
+        copiedNatural = false
+
         natural = ""
         pinyin = ""
         keywords = []
         dictionaryHits = []
 
         do {
-            if isCNMode {
-                let response = try await APIService.shared.analyzeChinese(text: trimmed)
+            if requestIsCNMode {
+                let response = try await APIService.shared.analyzeChinese(
+                    text: trimmed
+                )
 
                 natural = response.natural
                 pinyin = response.pinyin
                 keywords = response.keywords
                 dictionaryHits = response.dictionaryHits
-
             } else {
-                let response = try await APIService.shared.translateRuToCn(text: trimmed)
+                let response = try await APIService.shared.translateRuToCn(
+                    text: trimmed
+                )
 
                 natural = response.translation
                 pinyin = response.pinyin
-
-                keywords = []
-                dictionaryHits = []
             }
-
         } catch {
             self.error = error.localizedDescription
         }
-
-        isLoading = false
     }
 }
 
