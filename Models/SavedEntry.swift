@@ -14,6 +14,7 @@ struct SavedEntry: Identifiable, Codable, Equatable {
     let ru: String?
     let pos: String?
     let examples: String?
+    let article: DictionaryArticle?
 
     init(from entry: Entry) {
         self.id = entry.id
@@ -22,6 +23,12 @@ struct SavedEntry: Identifiable, Codable, Equatable {
         self.ru = entry.ru
         self.pos = entry.pos
         self.examples = entry.examples
+        self.article = entry.article
+    }
+
+    init(from decoder: Decoder) throws {
+        // Reuse Entry's tolerant optional-article decoder for existing favorites/history.
+        self.init(from: try Entry(from: decoder))
     }
 
     func toEntry() -> Entry {
@@ -31,7 +38,8 @@ struct SavedEntry: Identifiable, Codable, Equatable {
             pinyin: pinyin,
             ru: ru,
             pos: pos,
-            examples: examples
+            examples: examples,
+            article: article
         )
     }
 }

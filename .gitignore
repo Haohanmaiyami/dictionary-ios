@@ -1,7 +1,12 @@
-cat > .gitignore <<'EOF'
 .DS_Store
 xcuserdata/
 *.xcuserstate
 DerivedData/
 build/
-EOF
+
+# Local verification output and release build artifacts
+.verification/
+.release/
+*.xcarchive/
+*.ipa
+__pycache__/

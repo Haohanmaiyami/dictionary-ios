@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CBB000000000000000000061 /* StrokeAssets in Resources */ = {isa = PBXBuildFile; fileRef = CBB000000000000000000062 /* StrokeAssets */; };
 		BDA774752FAFFC37008A430A /* SavedEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA774742FAFFC37008A430A /* SavedEntry.swift */; };
 		BDA7747C2FAFFFDF008A430A /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA7747B2FAFFFDF008A430A /* FavoritesView.swift */; };
 		BDA7747E2FAFFFFA008A430A /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA7747D2FAFFFFA008A430A /* HistoryView.swift */; };
@@ -21,9 +22,11 @@
 		BDF5F34F2F6A57B400EB7500 /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF5F34E2F6A57B400EB7500 /* Entry.swift */; };
 		BDF5F3512F6A582300EB7500 /* SearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF5F3502F6A582300EB7500 /* SearchResponse.swift */; };
 		BDF5F3532F6B9A7000EB7500 /* AIModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF5F3522F6B9A7000EB7500 /* AIModels.swift */; };
+		BF96A04230A40093004B0C64 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = BF96A04130A40093004B0C64 /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CBB000000000000000000062 /* StrokeAssets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = StrokeAssets; sourceTree = "<group>"; };
 		BDA774742FAFFC37008A430A /* SavedEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedEntry.swift; sourceTree = "<group>"; };
 		BDA7747B2FAFFFDF008A430A /* FavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesView.swift; sourceTree = "<group>"; };
 		BDA7747D2FAFFFFA008A430A /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
@@ -41,6 +44,7 @@
 		BDF5F34E2F6A57B400EB7500 /* Entry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
 		BDF5F3502F6A582300EB7500 /* SearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResponse.swift; sourceTree = "<group>"; };
 		BDF5F3522F6B9A7000EB7500 /* AIModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIModels.swift; sourceTree = "<group>"; };
+		BF96A04130A40093004B0C64 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -65,9 +69,11 @@
 		BDF0F84C2F6A430600CAD578 = {
 			isa = PBXGroup;
 			children = (
+				BF96A04130A40093004B0C64 /* PrivacyInfo.xcprivacy */,
 				BDA774762FAFFC76008A430A /* Stores */,
 				BDCBE9442F9EE23F005E71DD /* DictionaryApp-Info.plist */,
 				BDCBE9422F8C2F10005E71DD /* README.md */,
+				CBB000000000000000000062 /* StrokeAssets */,
 				BDF0F8682F6A4B9400CAD578 /* Components */,
 				BDF0F8672F6A4B8D00CAD578 /* Views */,
 				BDF0F8662F6A4B8600CAD578 /* Network */,
@@ -190,6 +196,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF96A04230A40093004B0C64 /* PrivacyInfo.xcprivacy in Resources */,
+				CBB000000000000000000061 /* StrokeAssets in Resources */,
 				BDF0F85D2F6A430800CAD578 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -345,11 +353,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = H6N2A4839T;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = 275PHVN34L;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "DictionaryApp-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Chinese Bridge";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -361,7 +370,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ayankharitonov.cnbridge;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aiankharitonov.cnbridge.dictionary;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -383,11 +392,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = H6N2A4839T;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = 275PHVN34L;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "DictionaryApp-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Chinese Bridge";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -399,7 +409,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ayankharitonov.cnbridge;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aiankharitonov.cnbridge.dictionary;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

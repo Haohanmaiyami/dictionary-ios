@@ -1,5 +1,6 @@
 import SwiftUI
 import UIKit
+import Foundation
 
 struct AIView: View {
     @State private var text: String = ""
@@ -49,6 +50,10 @@ struct AIView: View {
                 )
                 .padding(.horizontal)
 
+                Text("До 1000 символов за один перевод")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+
                 // BUTTON
                 Button(isCNMode ? "Перевести (CN -> RU)" : "Перевести (RU -> CN)") {
                     hideKeyboard()
@@ -65,7 +70,7 @@ struct AIView: View {
 
                 // STATES
                 if isLoading {
-                    ProgressView(isCNMode ? "AI анализирует... это может занять до минуты" : "AI переводит... это может занять до минуты")
+                    ProgressView(isCNMode ? "AI анализирует... ожидайте ответ" : "AI переводит... ожидайте ответ")
                 } else if let error = error {
                     Text(error)
                         .foregroundColor(.red)
@@ -298,8 +303,32 @@ struct AIView: View {
                 natural = response.translation
                 pinyin = response.pinyin
             }
+        } catch let aiError as AIServiceError {
+            self.error = aiError.localizedDescription
+        } catch let networkError as URLError {
+            switch networkError.code {
+            case .notConnectedToInternet:
+                self.error = "Нет подключения к интернету. Проверьте соединение."
+
+            case .cannotConnectToHost, .cannotFindHost, .dnsLookupFailed:
+                self.error = "Не удалось подключиться к серверу. Попробуйте позже."
+
+            case .timedOut:
+                self.error = "Время ожидания ответа истекло. Попробуйте позже."
+
+            case .networkConnectionLost:
+                self.error = "Соединение с сервером прервалось. Повторите попытку."
+
+            case .cancelled:
+                self.error = nil
+
+            default:
+                self.error = "Не удалось выполнить запрос к серверу. Попробуйте позже."
+            }
+        } catch is DecodingError {
+            self.error = "Не удалось прочитать ответ сервера. Попробуйте позже."
         } catch {
-            self.error = error.localizedDescription
+            self.error = "Не удалось выполнить перевод. Попробуйте позже."
         }
     }
 }
