@@ -24,26 +24,27 @@ struct HistoryView: View {
                 } else {
 
                     ForEach(store.items) { saved in
+                        let entry = saved.toEntry()
 
                         NavigationLink(
-                            destination: EntryDetailView(entry: saved.toEntry())
+                            destination: EntryDetailView(entry: entry)
                         ) {
 
                             VStack(alignment: .leading, spacing: 4) {
 
-                                Text(saved.hanzi ?? "—")
+                                Text(entry.displayHeadword)
                                     .font(.headline)
 
-                                if let pinyin = saved.pinyin,
+                                if let pinyin = entry.displayPinyin,
                                    !pinyin.isEmpty {
 
                                     Text(pinyin)
                                         .foregroundColor(.gray)
                                 }
 
-                                Text(saved.ru ?? "Без перевода")
+                                Text(entry.previewText)
                                     .font(.subheadline)
-                                    .lineLimit(1)
+                                    .lineLimit(entry.isRussianHeadword ? 3 : 1)
                                     .truncationMode(.tail)
                             }
                         }

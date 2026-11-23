@@ -15,6 +15,13 @@ struct SavedEntry: Identifiable, Codable, Equatable {
     let pos: String?
     let examples: String?
     let article: DictionaryArticle?
+    let headword: String?
+    let headwordLanguage: String?
+
+    private enum CodingKeys: String, CodingKey {
+        case id, hanzi, pinyin, ru, pos, examples, article, headword
+        case headwordLanguage = "headword_language"
+    }
 
     init(from entry: Entry) {
         self.id = entry.id
@@ -24,6 +31,8 @@ struct SavedEntry: Identifiable, Codable, Equatable {
         self.pos = entry.pos
         self.examples = entry.examples
         self.article = entry.article
+        self.headword = entry.headword
+        self.headwordLanguage = entry.headwordLanguage
     }
 
     init(from decoder: Decoder) throws {
@@ -39,7 +48,9 @@ struct SavedEntry: Identifiable, Codable, Equatable {
             ru: ru,
             pos: pos,
             examples: examples,
-            article: article
+            article: article,
+            headword: headword,
+            headwordLanguage: headwordLanguage
         )
     }
 }

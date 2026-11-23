@@ -15,9 +15,39 @@ struct Entry: Codable, Identifiable {
     let pos: String?
     let examples: String?
     let article: DictionaryArticle?
+    let headword: String?
+    let headwordLanguage: String?
+
+    // Source metadata is explicit; Cyrillic in a Chinese translation is not provenance.
+    var isRussianHeadword: Bool {
+        headwordLanguage == "ru" &&
+        !(headword?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ?? true)
+    }
+
+    var displayHeadword: String {
+        if isRussianHeadword, let headword {
+            return headword.trimmingCharacters(in: .whitespacesAndNewlines)
+        }
+        return hanzi ?? "—"
+    }
+
+    var displayPinyin: String? { isRussianHeadword ? nil : pinyin }
+
+    var previewText: String {
+        let text: String
+        if isRussianHeadword {
+            // BRuKS stores its full Chinese article separately from the first hanzi.
+            text = article?.rows.map(\.displayText).joined(separator: "\n") ?? examples ?? "Без перевода"
+        } else {
+            text = ru ?? "Без перевода"
+        }
+        return text.replacingOccurrences(of: "<br>", with: isRussianHeadword ? "\n" : " ")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+    }
 
     init(id: Int, hanzi: String?, pinyin: String?, ru: String?, pos: String?,
-         examples: String?, article: DictionaryArticle? = nil) {
+         examples: String?, article: DictionaryArticle? = nil,
+         headword: String? = nil, headwordLanguage: String? = nil) {
         self.id = id
         self.hanzi = hanzi
         self.pinyin = pinyin
@@ -25,10 +55,13 @@ struct Entry: Codable, Identifiable {
         self.pos = pos
         self.examples = examples
         self.article = article
+        self.headword = headword
+        self.headwordLanguage = headwordLanguage
     }
 
     private enum CodingKeys: String, CodingKey {
-        case id, hanzi, pinyin, ru, pos, examples, article
+        case id, hanzi, pinyin, ru, pos, examples, article, headword
+        case headwordLanguage = "headword_language"
     }
 
     init(from decoder: Decoder) throws {
@@ -42,6 +75,8 @@ struct Entry: Codable, Identifiable {
         // New metadata must never make a previously saved entry unreadable.
         // Unknown versions or malformed articles use the legacy strings instead.
         article = try? values.decodeIfPresent(DictionaryArticle.self, forKey: .article)
+        headword = try? values.decodeIfPresent(String.self, forKey: .headword)
+        headwordLanguage = try? values.decodeIfPresent(String.self, forKey: .headwordLanguage)
     }
 }
 
@@ -287,7 +322,7 @@ enum DictionaryReferenceResolver {
         let query = target.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !query.isEmpty else { throw DictionaryReferenceError.notFound(target) }
         let entries = try await search(query)
-        guard let exact = entries.first(where: { $0.hanzi == query }) else {
+        guard let exact = entries.first(where: { $0.displayHeadword == query }) else {
             throw DictionaryReferenceError.notFound(query)
         }
         return exact
