@@ -3,6 +3,7 @@ import UIKit
 import Foundation
 
 struct AIView: View {
+    @AppStorage(AIPrivacySettings.consentKey) private var aiConsentGranted = false
     @State private var text: String = ""
     @State private var natural: String = ""
     @State private var pinyin: String = ""
@@ -12,6 +13,8 @@ struct AIView: View {
     @State private var isCNMode = true
     @State private var copiedNatural = false
     @State private var dictionaryHits: [AIDictionaryHit] = []
+    @State private var isShowingAIConsent = false
+    @State private var isShowingPrivacy = false
 
     var body: some View {
         NavigationStack {
@@ -57,8 +60,10 @@ struct AIView: View {
                 // BUTTON
                 Button(isCNMode ? "Перевести (CN -> RU)" : "Перевести (RU -> CN)") {
                     hideKeyboard()
-                    Task {
-                        await analyze()
+                    if aiConsentGranted {
+                        Task { await analyze() }
+                    } else {
+                        isShowingAIConsent = true
                     }
                 }
                 .buttonStyle(.borderedProminent)
@@ -192,6 +197,28 @@ struct AIView: View {
             }
             .padding(.top)
             .navigationTitle("ИИ анализ")
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        isShowingPrivacy = true
+                    } label: {
+                        Image(systemName: "info.circle")
+                    }
+                    .accessibilityLabel("Конфиденциальность")
+                }
+            }
+            .alert("Передача текста для ИИ", isPresented: $isShowingAIConsent) {
+                Button("Отмена", role: .cancel) {}
+                Button("Согласен и отправить") {
+                    aiConsentGranted = true
+                    Task { await analyze() }
+                }
+            } message: {
+                Text("Введённый текст будет отправлен на сервер Chinese Bridge, а затем в Selectel Token Factory для ИИ-анализа или перевода. Согласие можно отозвать в разделе «Конфиденциальность».")
+            }
+            .sheet(isPresented: $isShowingPrivacy) {
+                NavigationStack { PrivacyDisclosureView() }
+            }
             .onTapGesture {
                 hideKeyboard()
             }
@@ -266,6 +293,7 @@ struct AIView: View {
     @MainActor
     func analyze() async {
         guard !isLoading else { return }
+        guard aiConsentGranted else { return }
 
         let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return }
@@ -303,32 +331,8 @@ struct AIView: View {
                 natural = response.translation
                 pinyin = response.pinyin
             }
-        } catch let aiError as AIServiceError {
-            self.error = aiError.localizedDescription
-        } catch let networkError as URLError {
-            switch networkError.code {
-            case .notConnectedToInternet:
-                self.error = "Нет подключения к интернету. Проверьте соединение."
-
-            case .cannotConnectToHost, .cannotFindHost, .dnsLookupFailed:
-                self.error = "Не удалось подключиться к серверу. Попробуйте позже."
-
-            case .timedOut:
-                self.error = "Время ожидания ответа истекло. Попробуйте позже."
-
-            case .networkConnectionLost:
-                self.error = "Соединение с сервером прервалось. Повторите попытку."
-
-            case .cancelled:
-                self.error = nil
-
-            default:
-                self.error = "Не удалось выполнить запрос к серверу. Попробуйте позже."
-            }
-        } catch is DecodingError {
-            self.error = "Не удалось прочитать ответ сервера. Попробуйте позже."
         } catch {
-            self.error = "Не удалось выполнить перевод. Попробуйте позже."
+            self.error = NetworkErrorPresentation.message(for: error)
         }
     }
 }

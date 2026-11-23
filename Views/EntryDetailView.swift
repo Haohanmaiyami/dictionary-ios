@@ -25,7 +25,7 @@ struct EntryDetailView: View {
     }
     
     private var cleanedTranslation: String {
-        (currentEntry.ru ?? "Без перевода")
+        (currentEntry.isRussianHeadword ? currentEntry.previewText : (currentEntry.ru ?? "Без перевода"))
             .replacingOccurrences(of: "<br>", with: "\n")
             .trimmingCharacters(in: .whitespacesAndNewlines)
     }
@@ -41,10 +41,10 @@ struct EntryDetailView: View {
             VStack(alignment: .leading, spacing: 20) {
 
                 VStack(spacing: 8) {
-                    Text(currentEntry.hanzi ?? "—")
+                    Text(currentEntry.displayHeadword)
                         .font(.system(size: 42, weight: .bold))
 
-                    if let pinyin = currentEntry.pinyin, !pinyin.isEmpty {
+                    if let pinyin = currentEntry.displayPinyin, !pinyin.isEmpty {
                         Text(pinyin)
                             .font(.title3)
                             .foregroundColor(.gray)
@@ -101,7 +101,7 @@ struct EntryDetailView: View {
                     .background(Color(.systemGray6))
                     .cornerRadius(12)
 
-                    if let examples = currentEntry.examples,
+                    if !currentEntry.isRussianHeadword, let examples = currentEntry.examples,
                        !examples.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                         VStack(alignment: .leading, spacing: 8) {
                             Text("Примеры")
@@ -116,7 +116,7 @@ struct EntryDetailView: View {
                     }
                 }
 
-                if let hanzi = currentEntry.hanzi, !hanzi.isEmpty {
+                if !currentEntry.isRussianHeadword, let hanzi = currentEntry.hanzi, !hanzi.isEmpty {
                     StrokeOrderSection(characters: StrokeOrderContent.characters(in: hanzi))
                         // Reset selection if a fetched headword or entry changes.
                         .id("\(currentEntry.id):\(hanzi)")
@@ -158,6 +158,7 @@ struct EntryDetailView: View {
             let loaded = try await APIService.shared.fetchEntry(id: entry.id)
             try Task.checkCancellation()
             fullEntry = loaded
+            favoritesStore.refreshIfSaved(loaded)
             HistoryStore.shared.add(loaded)
         } catch {
             // Keep showing search result data if full entry loading fails.
@@ -189,7 +190,7 @@ struct EntryDetailView: View {
             referenceError = error.localizedDescription
         } catch {
             if !Task.isCancelled {
-                referenceError = "Не удалось загрузить «\(target)». Проверьте соединение и попробуйте ещё раз."
+                referenceError = NetworkErrorPresentation.message(for: error)
             }
         }
     }

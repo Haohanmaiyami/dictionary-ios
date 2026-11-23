@@ -12,6 +12,9 @@ struct DictionaryMainView: View {
     @State private var results: [Entry] = []
     @State private var isLoading: Bool = false
     @State private var errorMessage: String?
+    @State private var isShowingPrivacy = false
+    @State private var searchTask: Task<Void, Never>?
+    @State private var searchID = UUID()
     
     @FocusState private var isSearchFieldFocused: Bool
     
@@ -26,9 +29,7 @@ struct DictionaryMainView: View {
                         .focused($isSearchFieldFocused)
                         .onSubmit {
                             hideKeyboard()
-                            Task {
-                                await performSearch()
-                            }
+                            startSearch()
                         }
                     
                     if !query.isEmpty {
@@ -49,9 +50,7 @@ struct DictionaryMainView: View {
                 
                 Button {
                     hideKeyboard()
-                    Task {
-                        await performSearch()
-                    }
+                    startSearch()
                 } label: {
                     if isLoading {
                         ProgressView()
@@ -109,21 +108,17 @@ struct DictionaryMainView: View {
                     List(results) { entry in
                         NavigationLink(destination: EntryDetailView(entry: entry)) {
                             VStack(alignment: .leading, spacing: 4) {
-                                Text(entry.hanzi ?? "—")
+                                Text(entry.displayHeadword)
                                     .font(.headline)
                                 
-                                if let pinyin = entry.pinyin, !pinyin.isEmpty {
+                                if let pinyin = entry.displayPinyin, !pinyin.isEmpty {
                                     Text(pinyin)
                                         .foregroundColor(.gray)
                                 }
                                 
-                                Text(
-                                    (entry.ru ?? "Без перевода")
-                                        .replacingOccurrences(of: "<br>", with: " ")
-                                        .trimmingCharacters(in: .whitespacesAndNewlines)
-                                    )
+                                Text(entry.previewText)
                                     .font(.subheadline)
-                                    .lineLimit(1)
+                                    .lineLimit(entry.isRussianHeadword ? 3 : 1)
                                     .truncationMode(.tail)
                             }
                         }
@@ -133,6 +128,14 @@ struct DictionaryMainView: View {
             }
             .navigationTitle("Поиск в словаре")
             .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        isShowingPrivacy = true
+                    } label: {
+                        Image(systemName: "info.circle")
+                    }
+                    .accessibilityLabel("Конфиденциальность")
+                }
                 ToolbarItemGroup(placement: .keyboard) {
                     Spacer()
                     
@@ -141,6 +144,15 @@ struct DictionaryMainView: View {
                     }
                 }
             }
+            .onChange(of: query) { _ in
+                cancelSearch()
+                results = []
+                errorMessage = nil
+            }
+            .onDisappear { cancelSearch() }
+            .sheet(isPresented: $isShowingPrivacy) {
+                NavigationStack { PrivacyDisclosureView() }
+            }
         }
     }
     
@@ -148,28 +160,43 @@ struct DictionaryMainView: View {
         isSearchFieldFocused = false
     }
         
-    func performSearch() async {
+    @MainActor
+    private func cancelSearch() {
+        searchID = UUID()
+        searchTask?.cancel()
+        searchTask = nil
+        isLoading = false
+    }
+
+    @MainActor
+    private func startSearch() {
+        cancelSearch()
         let trimmedQuery = query.trimmingCharacters(in: .whitespacesAndNewlines)
-        
         guard !trimmedQuery.isEmpty else {
             results = []
             errorMessage = nil
             return
         }
-        
+        let requestID = searchID
         isLoading = true
         errorMessage = nil
-        
-        do {
-            let response = try await APIService.shared.search(query: trimmedQuery, limit: 20)
-            
-            results = response.results
-        } catch {
-            errorMessage = "Ошибка: \(error.localizedDescription)"
-            results = []
+        searchTask = Task {
+            defer {
+                if searchID == requestID {
+                    isLoading = false
+                    searchTask = nil
+                }
+            }
+            do {
+                let response = try await APIService.shared.search(query: trimmedQuery, limit: 20)
+                guard !Task.isCancelled, searchID == requestID else { return }
+                results = response.results
+            } catch {
+                guard !Task.isCancelled, searchID == requestID else { return }
+                errorMessage = NetworkErrorPresentation.message(for: error)
+                results = []
+            }
         }
-        
-        isLoading = false
     }
 }
 
