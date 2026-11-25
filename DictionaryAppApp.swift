@@ -9,6 +9,10 @@ import SwiftUI
 
 @main
 struct DictionaryAppApp: App {
+    init() {
+        InkFont.registerBundledFonts()
+    }
+
     var body: some Scene {
         WindowGroup {
             DictionaryView()

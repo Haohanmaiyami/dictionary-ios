@@ -53,6 +53,11 @@
 			path = Stores;
 			sourceTree = "<group>";
 		};
+		BDC0FFEE00000000000000A1 /* Theme */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Theme;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +76,7 @@
 			children = (
 				BF96A04130A40093004B0C64 /* PrivacyInfo.xcprivacy */,
 				BDA774762FAFFC76008A430A /* Stores */,
+				BDC0FFEE00000000000000A1 /* Theme */,
 				BDCBE9442F9EE23F005E71DD /* DictionaryApp-Info.plist */,
 				BDCBE9422F8C2F10005E71DD /* README.md */,
 				CBB000000000000000000062 /* StrokeAssets */,
@@ -149,6 +155,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				BDA774762FAFFC76008A430A /* Stores */,
+				BDC0FFEE00000000000000A1 /* Theme */,
 			);
 			name = DictionaryApp;
 			packageProductDependencies = (

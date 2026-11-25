@@ -6,31 +6,43 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct DictionaryView: View {
+    private enum Tab: Hashable {
+        case dictionary, ai, favorites, history
+    }
+
+    @State private var selectedTab: Tab = .dictionary
+
     var body: some View {
-        TabView {
+        TabView(selection: $selectedTab) {
             
-            DictionaryMainView()
+            DictionaryMainView(showHistory: { selectedTab = .history })
                 .tabItem {
                     Label("Словарь", systemImage: "book")
                 }
+                .tag(Tab.dictionary)
             
             AIView()
                 .tabItem {
-                    Label("AI", systemImage: "sparkles")
+                    Label("ИИ", systemImage: "sparkles")
                 }
+                .tag(Tab.ai)
             
             FavoritesView()
                 .tabItem {
                     Label("Избранное", systemImage: "star.fill")
                 }
+                .tag(Tab.favorites)
             
             HistoryView()
                 .tabItem {
                     Label("История", systemImage: "clock")
                 }
+                .tag(Tab.history)
         }
+        .tint(Ink.cinnabar)
     }
 }
 
@@ -46,27 +58,67 @@ struct PrivacyDisclosureView: View {
 
     var body: some View {
         Form {
-            Section("Политика конфиденциальности") {
-                Link("Открыть политику конфиденциальности", destination: privacyPolicyURL)
+            Section {
+                Link(destination: privacyPolicyURL) {
+                    HStack {
+                        Text("Открыть политику конфиденциальности")
+                        Spacer(minLength: 8)
+                        Image(systemName: "arrow.up.right.square")
+                            .accessibilityHidden(true)
+                    }
+                    .font(InkFont.serif(16))
+                    .foregroundStyle(Ink.cinnabar)
+                }
+                .listRowBackground(Ink.card)
+            } header: {
+                sectionHeader("Политика конфиденциальности")
             }
 
-            Section("ИИ-перевод") {
+            Section {
                 Text("Для ИИ-анализа и перевода введённый вами текст отправляется на сервер Chinese Bridge, а затем в Selectel Token Factory. Без вашего согласия ИИ-запрос не отправляется. Поиск по словарю работает без этого согласия.")
-                Text(aiConsentGranted ? "Согласие дано" : "Согласие не дано")
-                    .foregroundStyle(.secondary)
+                    .font(InkFont.serif(15))
+                    .foregroundStyle(Ink.inkSecondary)
+                    .listRowBackground(Ink.card)
+                HStack(spacing: 10) {
+                    Circle()
+                        .fill(aiConsentGranted ? Ink.jade : Ink.mutedSoft)
+                        .frame(width: 9, height: 9)
+                        .accessibilityHidden(true)
+                    Text(aiConsentGranted ? "Согласие дано" : "Согласие не дано")
+                        .font(InkFont.serif(15))
+                        .foregroundStyle(Ink.ink)
+                }
+                .listRowBackground(Ink.card)
                 if aiConsentGranted {
                     Button("Отозвать согласие на ИИ") {
                         aiConsentGranted = false
                     }
+                    .font(InkFont.serif(16, .semibold))
+                    .foregroundStyle(Ink.cinnabar)
+                    .listRowBackground(Ink.card)
                 }
+            } header: {
+                sectionHeader("ИИ-перевод")
             }
         }
+        .scrollContentBackground(.hidden)
+        .background(Ink.paper.ignoresSafeArea())
         .navigationTitle("Конфиденциальность")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button("Готово") { dismiss() }
+                    .tint(Ink.cinnabar)
             }
         }
+    }
+
+    private func sectionHeader(_ title: String) -> some View {
+        Text(title.uppercased())
+            .font(InkFont.serif(11.5, .semibold, relativeTo: .caption1))
+            .tracking(2.2)
+            .foregroundStyle(Ink.cinnabarDeep)
+            .textCase(nil)
+            .accessibilityLabel(title)
     }
 }
