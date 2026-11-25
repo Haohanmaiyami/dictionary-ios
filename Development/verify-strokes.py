@@ -65,8 +65,8 @@ struct StrokeChecks {
         success.evaluateScript("receivedOptions.onLoadCharDataSuccess()")
         require(success, "receivedCharacter==='好' && animationCount===1 && elements.status.hidden && !elements.writer.hidden")
         require(success, "receivedOptions.charDataLoader().strokes.length>0 && receivedOptions.charDataLoader().medians.length>0")
-        require(success, "receivedOptions.strokeColor==='#555555'")
-        require(runtime(true), "receivedOptions.strokeColor==='#E5E5EA'")
+        require(success, "receivedOptions.strokeColor==='#1E1A16' && receivedOptions.outlineColor==='#E3D7C2'")
+        require(runtime(true), "receivedOptions.strokeColor==='#EDE4D3' && receivedOptions.outlineColor==='#3A322A'")
         for failure in ["receivedOptions.onLoadCharDataError()", "rejection()"] {
             let context = runtime(); context.evaluateScript(failure)
             require(context, "elements.writer.hidden && !elements.status.hidden && elements.status.textContent.includes('Не удалось')")

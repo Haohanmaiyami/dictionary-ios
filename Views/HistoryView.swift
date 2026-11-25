@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct HistoryView: View {
     @ObservedObject private var store = HistoryStore.shared
@@ -14,51 +15,52 @@ struct HistoryView: View {
 
         NavigationStack {
 
-            List {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 0) {
+                    InkScreenHeader(label: "历史") {
+                        Button("Очистить") {
+                            store.clear()
+                        }
+                        .font(InkFont.serif(16, .semibold))
+                        .foregroundStyle(store.items.isEmpty ? Ink.mutedSoft : Ink.cinnabar)
+                        .frame(minWidth: 44, minHeight: 44)
+                        .disabled(store.items.isEmpty)
+                    }
+                    InkLargeTitle(text: "История")
+                        .padding(.top, 2)
 
-                if store.items.isEmpty {
+                    if store.items.isEmpty {
+                        InkEmptyState(
+                            image: "InkEmptyInk",
+                            title: "История пока пустая",
+                            message: "Здесь появятся слова, которые вы открывали"
+                        )
+                    } else {
+                        InkSubtitle(text: "Последние 50 открытых слов")
+                            .padding(.top, 4)
 
-                    Text("История пока пустая")
-                        .foregroundColor(.gray)
+                        LazyVStack(spacing: 0) {
+                            ForEach(store.items) { saved in
+                                let entry = saved.toEntry()
 
-                } else {
-
-                    ForEach(store.items) { saved in
-                        let entry = saved.toEntry()
-
-                        NavigationLink(
-                            destination: EntryDetailView(entry: entry)
-                        ) {
-
-                            VStack(alignment: .leading, spacing: 4) {
-
-                                Text(entry.displayHeadword)
-                                    .font(.headline)
-
-                                if let pinyin = entry.displayPinyin,
-                                   !pinyin.isEmpty {
-
-                                    Text(pinyin)
-                                        .foregroundColor(.gray)
+                                NavigationLink(
+                                    destination: EntryDetailView(entry: entry)
+                                ) {
+                                    InkEntryRow(entry: entry)
                                 }
-
-                                Text(entry.previewText)
-                                    .font(.subheadline)
-                                    .lineLimit(entry.isRussianHeadword ? 3 : 1)
-                                    .truncationMode(.tail)
+                                .buttonStyle(.plain)
                             }
                         }
+                        .padding(.top, 10)
                     }
                 }
+                .padding(.horizontal, 22)
+                .padding(.bottom, 24)
             }
+            .background(Ink.paper.ignoresSafeArea())
+            .toolbar(.hidden, for: .navigationBar)
             .navigationTitle("История")
-
-            .toolbar {
-
-                Button("Очистить") {
-                    store.clear()
-                }
-            }
         }
     }
+
 }
