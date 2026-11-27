@@ -370,7 +370,7 @@ struct AIView: View {
                     .padding(.top, 14)
                     .accessibilityAddTraits(.isHeader)
 
-                Text("Введённый текст будет отправлен на сервер Chinese Bridge, а затем в Selectel Token Factory для ИИ-анализа или перевода. Согласие можно отозвать в разделе «Конфиденциальность».")
+                Text("Введённый текст будет отправлен на сервер приложения, а затем в Selectel Token Factory для ИИ-анализа или перевода. Согласие можно отозвать в разделе «Конфиденциальность».")
                     .font(InkFont.serif(15))
                     .foregroundStyle(Ink.inkSecondary)
                     .lineSpacing(2)
