@@ -55,6 +55,7 @@ struct PrivacyDisclosureView: View {
     @AppStorage(AIPrivacySettings.consentKey) private var aiConsentGranted = false
 
     private let privacyPolicyURL = URL(string: "https://31.129.45.131/privacy")!
+    private let dictionarySourceURL = URL(string: "https://bkrs.info")!
 
     var body: some View {
         Form {
@@ -75,7 +76,7 @@ struct PrivacyDisclosureView: View {
             }
 
             Section {
-                Text("Для ИИ-анализа и перевода введённый вами текст отправляется на сервер Chinese Bridge, а затем в Selectel Token Factory. Без вашего согласия ИИ-запрос не отправляется. Поиск по словарю работает без этого согласия.")
+                Text("Для ИИ-анализа и перевода введённый вами текст отправляется на сервер приложения, а затем в Selectel Token Factory. Без вашего согласия ИИ-запрос не отправляется. Поиск по словарю работает без этого согласия.")
                     .font(InkFont.serif(15))
                     .foregroundStyle(Ink.inkSecondary)
                     .listRowBackground(Ink.card)
@@ -99,6 +100,26 @@ struct PrivacyDisclosureView: View {
                 }
             } header: {
                 sectionHeader("ИИ-перевод")
+            }
+
+            Section {
+                Text("Словарные данные: 大БКРС (Большой китайско-русский словарь) и БРуКС (Большой русско-китайский словарь).")
+                    .font(InkFont.serif(15))
+                    .foregroundStyle(Ink.inkSecondary)
+                    .listRowBackground(Ink.card)
+                Link(destination: dictionarySourceURL) {
+                    HStack {
+                        Text("bkrs.info")
+                        Spacer(minLength: 8)
+                        Image(systemName: "arrow.up.right.square")
+                            .accessibilityHidden(true)
+                    }
+                    .font(InkFont.serif(16))
+                    .foregroundStyle(Ink.cinnabar)
+                }
+                .listRowBackground(Ink.card)
+            } header: {
+                sectionHeader("Источник словаря")
             }
         }
         .scrollContentBackground(.hidden)

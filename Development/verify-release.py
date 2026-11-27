@@ -12,9 +12,9 @@ import subprocess
 
 ROOT = Path(__file__).resolve().parent.parent
 BUNDLE_ID = "com.aiankharitonov.cnbridge.dictionary"
-DISPLAY_NAME = "Chinese Bridge"
-MARKETING_VERSION = "1.0.1"
-BUILD_VERSION = "4"
+DISPLAY_NAME = "Вэнь"
+MARKETING_VERSION = "1.2"
+BUILD_VERSION = "6"
 API_URL = "https://31.129.45.131"
 
 
